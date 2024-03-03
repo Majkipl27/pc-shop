@@ -1,3 +1,3 @@
 export default function HomePage() {
-    return <div>Jakjco kurwa</div>
+    return <div>Home page</div>
 }
