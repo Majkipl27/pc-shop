@@ -6,9 +6,12 @@ import { Cookies } from "typescript-cookie";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@lib/atoms";
+import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
 export default function Header(): JSX.Element {
   const [user, setUser] = useAtom(userAtom);
+  const pathname = usePathname();
 
   useEffect(() => {
     const userCookie = Cookies.get("user_info");
@@ -19,7 +22,7 @@ export default function Header(): JSX.Element {
     }
   }, []);
 
-  return (
+  return !pathname.startsWith("/auth") ? (
     <>
       <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 max-w-screen-2xl items-center">
@@ -34,24 +37,39 @@ export default function Header(): JSX.Element {
             <nav className="flex items-center space-x-2">
               <ModeToggle />
               {user ? (
-                <Link
-                  href="/auth/logout"
-                  className="text-foreground/60 hover:text-foreground/80 transition-colors"
-                >
-                  Logout
-                </Link>
+                <Button variant="ghost" asChild>
+                  <Link
+                    href="/auth/logout"
+                    className="text-foreground/60 hover:text-foreground/80 transition-colors"
+                  >
+                    Logout
+                  </Link>
+                </Button>
               ) : (
-                <Link
-                  href="/auth/login"
-                  className="text-foreground/60 hover:text-foreground/80 transition-colors"
-                >
-                  Login
-                </Link>
+                <Button variant="outline" asChild>
+                  <Link
+                    href="/auth/login"
+                    className="text-foreground/60 hover:text-foreground/80 transition-colors"
+                  >
+                    Login
+                  </Link>
+                </Button>
               )}
             </nav>
           </div>
         </div>
       </header>
     </>
+  ) : (
+    <div className="p-4 absolute flex items-center gap-2 z-50">
+      <Button variant="outline" asChild>
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="inline-block text-base text-foreground/60 hover:text-foreground/80">
+            Back to Home
+          </span>
+        </Link>
+      </Button>
+      <ModeToggle />
+    </div>
   );
 }
