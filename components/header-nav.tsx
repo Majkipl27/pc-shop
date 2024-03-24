@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -15,49 +16,49 @@ export default function HeaderNav(): JSX.Element {
   const components: { title: string; href: string; description: string }[] = [
     {
       title: "Motherboards",
-      href: "/motherboards",
+      href: "/products?category=motherboards",
       description:
         "Motherboards are the main printed circuit board within a computer.",
     },
     {
       title: "Cpu's",
-      href: "/cpus",
+      href: "/products?category=cpus",
       description:
         "Cpu is the component of a computer that acts as its “control center”.",
     },
     {
       title: "Graphics cards",
-      href: "/gpus",
+      href: "/products?category=gpus",
       description:
         "A graphics processing unit (GPU) is a specialized processor originally designed to accelerate graphics rendering",
     },
     {
       title: "Memory",
-      href: "/memory",
+      href: "/products?category=memory",
       description:
         "RAM is a computer's short-term memory, where the data that the processor is currently using is stored.",
     },
     {
       title: "Storage",
-      href: "/storage",
+      href: "/products?category=storage",
       description:
         "Storage is the place where data is held for access by a computer processor.",
     },
     {
       title: "Power supply",
-      href: "/power-supply",
+      href: "/products?category=power-supply",
       description:
         "A power supply is an electrical device that supplies electric power.",
     },
     {
       title: "Cases",
-      href: "/cases",
+      href: "/products?category=cases",
       description:
         "A computer case, enclosure that contains most of the components.",
     },
     {
       title: "Cpu cooling",
-      href: "/cooling",
+      href: "/products?category=cooling",
       description: "CPU cooling is device, that cools your cpu.",
     },
   ];
@@ -88,18 +89,22 @@ export default function HeaderNav(): JSX.Element {
               <div className="flex flex-col gap-3 w-full">
                 <ListItem
                   title="Headsets"
-                  href="/headsets"
+                  href="/products?category=headsets"
                   className="h-[100px]"
                 >
                   A headset combines a headphone with a microphone.
                 </ListItem>
-                <ListItem title="Mouses" href="/mouses" className="h-[100px]">
+                <ListItem
+                  title="Mouses"
+                  href="/products?category=mouses"
+                  className="h-[100px]"
+                >
                   A computer mouse is a hand-held pointing device that detects
                   two-dimensional motion.
                 </ListItem>
                 <ListItem
                   title="Monitors"
-                  href="/monitors"
+                  href="/products?category=monitors"
                   className="h-[100px]"
                 >
                   A computer monitor is an output device that displays
@@ -109,7 +114,7 @@ export default function HeaderNav(): JSX.Element {
               <div className="flex flex-col gap-3 w-full">
                 <ListItem
                   title="Keyboards"
-                  href="/keyboards"
+                  href="/products?category=keyboards"
                   className="h-[150px]"
                 >
                   A keyboard is a typewriter-style device that uses an
@@ -117,12 +122,12 @@ export default function HeaderNav(): JSX.Element {
                   electronic switches.
                 </ListItem>
                 <ListItem
-                  title="Printers"
-                  href="/printers"
+                  title="Webcams"
+                  href="/products?category=webcams"
                   className="h-[150px]"
                 >
-                  A printer is a peripheral which makes a persistent human
-                  readable representation of graphics or text on paper.
+                  Webcam is a video camera that feeds or streams its image in
+                  real time to or through a computer to a computer network.
                 </ListItem>
               </div>
             </ul>

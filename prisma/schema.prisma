@@ -4,18 +4,233 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
-    id        String   @id @default(cuid())
-    email     String   @unique
-    password  String
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-    @@map(name: "users")
+  @@map(name: "users")
+}
+
+model Cpu {
+  id           String   @id @default(cuid())
+  price        Float?
+  core_count   Int?
+  core_clock   Float?
+  boost_clock  Float?
+  tdp          Int?
+  graphics     String?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String?
+  name         String?
+
+  @@map(name: "cpus")
+}
+
+model Motherboard {
+  id           String   @id @default(cuid())
+  price        Float?
+  socket       String?
+  form_factor  String?
+  max_memory   Int?
+  memory_slots Int?
+  color        String?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String?
+  name         String?
+
+  @@map(name: "motherboards")
+}
+
+model Memory {
+  id                 String   @id @default(cuid())
+  price              Float?
+  speed              Int?
+  modules            Int?
+  price_per_gb       Float?
+  color              String?
+  first_word_latency Int?
+  cas_latency        Int?
+  createdAt          DateTime @default(now()) @map(name: "created_at")
+  updatedAt          DateTime @updatedAt @map(name: "updated_at")
+  manufacturer       String?
+  name               String
+
+  @@map(name: "memory")
+}
+
+model Gpu {
+  id           String   @id @default(cuid())
+  price        Float?
+  chipset      String?
+  memory       Int?
+  core_clock   Float?
+  boost_clock  Float?
+  color        String?
+  length       Float?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String?
+  name         String?
+
+  @@map(name: "gpus")
+}
+
+model Case {
+  id               String   @id @default(cuid())
+  price            Float?
+  type             String?
+  color            String?
+  psu              String?
+  side_panel       String?
+  external_volume  Float?
+  internal_35_bays Int?
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @updatedAt @map(name: "updated_at")
+  manufacturer     String?
+  name             String?
+
+  @@map(name: "cases")
+}
+
+model PowerSupply {
+  id                String   @id @default(cuid())
+  price             Float?
+  type              String?
+  efficiency_rating String?
+  wattage           Int?
+  modular           String?
+  color             String?
+  createdAt         DateTime @default(now()) @map(name: "created_at")
+  updatedAt         DateTime @updatedAt @map(name: "updated_at")
+  manufacturer      String?
+  name              String?
+
+  @@map(name: "power_supplies")
+}
+
+model CpuCooling {
+  id           String   @id @default(cuid())
+  price        Float?
+  rpm          Int?
+  color        String?
+  size         Float?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String
+  name         String
+
+  @@map(name: "cpu_coolings")
+}
+
+model HardDrive {
+  id           String   @id @default(cuid())
+  price        Float?
+  capacity     Int?
+  price_per_gb Float?
+  type         String?
+  cache        Int?
+  form_factor  String?
+  interface    String?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String
+  name         String
+
+  @@map(name: "hard_drives")
+}
+
+model Headset {
+  id                 String   @id @default(cuid())
+  price              Float?
+  name               String?
+  type               String?
+  microphone         Boolean?
+  wireless           Boolean?
+  enclosure_type     String?
+  color              String?
+  createdAt          DateTime @default(now()) @map(name: "created_at")
+  updatedAt          DateTime @updatedAt @map(name: "updated_at")
+  manufacturer       String
+
+  @@map(name: "headsets")
+}
+
+model Mouse {
+  id               String   @id @default(cuid())
+  price            Float?
+  name             String?
+  tracking_method  String?
+  connection_type  String?
+  max_dpi          Int?
+  hand_orientation String?
+  color            String?
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @updatedAt @map(name: "updated_at")
+  manufacturer     String?
+
+  @@map(name: "mice")
+}
+
+model Keyboard {
+  id              String   @id @default(cuid())
+  price           Float?
+  name            String?
+  style           String?
+  switches        String?
+  backlit         String?
+  tenkeyless      Boolean?
+  connection_type String?
+  color           String?
+  createdAt       DateTime @default(now()) @map(name: "created_at")
+  updatedAt       DateTime @updatedAt @map(name: "updated_at")
+  manufacturer    String?
+
+  @@map(name: "keyboards")
+}
+
+model Monitor {
+  id            String   @id @default(cuid())
+  price         Float?
+  name          String?
+  screen_size   Float?
+  resolution    String?
+  refresh_rate  Int?
+  response_time Int?
+  panel_type    String?
+  aspect_ratio  String?
+  createdAt     DateTime @default(now()) @map(name: "created_at")
+  updatedAt     DateTime @updatedAt @map(name: "updated_at")
+  manufacturer  String?
+
+  @@map(name: "monitors")
+}
+
+model Webcam {
+  id           String   @id @default(cuid())
+  price        Float?
+  name         String?
+  resolutions  String?
+  connection   String?
+  focus_type   String?
+  fov          String?
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  manufacturer String?
+
+  @@map(name: "webcams")
 }

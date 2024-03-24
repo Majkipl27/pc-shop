@@ -50,6 +50,7 @@ export default function LoginPage(): JSX.Element {
         toast({
           title: "Succesfully logged in!",
         });
+        window.location.href = "/";
         break;
       case 401:
         toast({
@@ -124,7 +125,8 @@ export default function LoginPage(): JSX.Element {
         </Form>
       </div>
       <Image
-        className="w-full h-full shadow-lg rounded-r-lg dark:brightness-75"
+        className="w-full h-full shadow-lg rounded-r-lg dark:brightness-[.85]"
+        priority
         alt=""
         src={Bg}
       />

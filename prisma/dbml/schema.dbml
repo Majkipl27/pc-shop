@@ -1,0 +1,196 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table users {
+  id String [pk]
+  email String [unique, not null]
+  password String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table cpus {
+  id String [pk]
+  price Float
+  core_count Int
+  core_clock Float
+  boost_clock Float
+  tdp Int
+  graphics String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String
+}
+
+Table motherboards {
+  id String [pk]
+  price Float
+  socket String
+  form_factor String
+  max_memory Int
+  memory_slots Int
+  color String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String
+}
+
+Table memory {
+  id String [pk]
+  price Float
+  speed Int
+  modules Int
+  price_per_gb Float
+  color String
+  first_word_latency Int
+  cas_latency Int
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String [not null]
+}
+
+Table gpus {
+  id String [pk]
+  price Float
+  chipset String
+  memory Int
+  core_clock Float
+  boost_clock Float
+  color String
+  length Float
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String
+}
+
+Table cases {
+  id String [pk]
+  price Float
+  type String
+  color String
+  psu String
+  side_panel String
+  external_volume Float
+  internal_35_bays Int
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String
+}
+
+Table power_supplies {
+  id String [pk]
+  price Float
+  type String
+  efficiency_rating String
+  wattage Int
+  modular String
+  color String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+  name String
+}
+
+Table cpu_coolings {
+  id String [pk]
+  price Float
+  rpm Int
+  color String
+  size Float
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String [not null]
+  name String [not null]
+}
+
+Table hard_drives {
+  id String [pk]
+  price Float
+  capacity Int
+  price_per_gb Float
+  type String
+  cache Int
+  form_factor String
+  interface String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String [not null]
+  name String [not null]
+}
+
+Table headsets {
+  id String [pk]
+  price Float
+  name String
+  type String
+  microphone Boolean
+  wireless Boolean
+  enclosure_type String
+  color String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String [not null]
+}
+
+Table mice {
+  id String [pk]
+  price Float
+  name String
+  tracking_method String
+  connection_type String
+  max_dpi Int
+  hand_orientation String
+  color String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+}
+
+Table keyboards {
+  id String [pk]
+  price Float
+  name String
+  style String
+  switches String
+  backlit String
+  tenkeyless Boolean
+  connection_type String
+  color String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+}
+
+Table monitors {
+  id String [pk]
+  price Float
+  name String
+  screen_size Float
+  resolution String
+  refresh_rate Int
+  response_time Int
+  panel_type String
+  aspect_ratio String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+}
+
+Table webcams {
+  id String [pk]
+  price Float
+  name String
+  resolutions String
+  connection String
+  focus_type String
+  fov String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  manufacturer String
+}

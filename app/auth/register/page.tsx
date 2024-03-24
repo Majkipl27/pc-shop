@@ -18,6 +18,7 @@ import { z } from "zod";
 import Bg from "./9205967.jpg";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -63,6 +64,7 @@ export default function RegisterPage(): JSX.Element {
         toast({
           title: "Succesfully registered!",
         });
+        window.location.href = "/auth/login";
         break;
       case 400:
         toast({
@@ -80,7 +82,8 @@ export default function RegisterPage(): JSX.Element {
   return (
     <div className="h-screen flex  py-40 px-56">
       <Image
-        className="w-full h-full shadow-lg dark:brightness-75 rounded-l-lg "
+        className="w-full h-full shadow-lg dark:brightness-[.85] rounded-l-lg "
+        priority
         alt=""
         src={Bg}
       />
