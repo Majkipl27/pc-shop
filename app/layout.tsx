@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { ThemeProvider } from "@components/theme-provider";
 import "./global.css";
 import Header from "@components/header";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Pc-shop",
@@ -25,7 +26,7 @@ export default function RootLayout({
         >
           <Header />
           <Toaster />
-          {children}
+          <Suspense>{children}</Suspense>
         </ThemeProvider>
       </body>
     </html>

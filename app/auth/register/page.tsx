@@ -19,6 +19,7 @@ import Bg from "./9205967.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import Spinner from "@components/spinner";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -31,6 +32,7 @@ const formSchema = z.object({
 });
 
 export default function RegisterPage(): JSX.Element {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,6 +50,8 @@ export default function RegisterPage(): JSX.Element {
       });
     }
 
+    setIsLoading(true);
+
     const req = await fetch("/api/auth/register", {
       method: "POST",
       headers: {
@@ -64,7 +68,9 @@ export default function RegisterPage(): JSX.Element {
         toast({
           title: "Succesfully registered!",
         });
-        window.location.href = "/auth/login";
+        setTimeout(() => {
+          window.location.href = "/auth/login";
+        }, 400);
         break;
       case 400:
         toast({
@@ -77,6 +83,7 @@ export default function RegisterPage(): JSX.Element {
           description: "An error occured.",
         });
     }
+    setIsLoading(false);
   }
 
   return (
@@ -150,8 +157,8 @@ export default function RegisterPage(): JSX.Element {
                 Login
               </Link>
             </span>
-            <Button type="submit" variant="outline">
-              Register
+            <Button type="submit" variant="outline" disabled={isLoading}>
+              {isLoading ? <Spinner /> : "Register"}
             </Button>
           </form>
         </Form>

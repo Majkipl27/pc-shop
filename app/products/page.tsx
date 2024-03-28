@@ -63,7 +63,7 @@ export default function ProductsPage() {
     }
   }
 
-  async function fetchPossibleOptions() {
+  async function fetchPossibleOptions(): Promise<void> {
     try {
       const req = await fetch(
         `/api/products/possible-options?category=${category}`,
@@ -90,24 +90,6 @@ export default function ProductsPage() {
     }
   }
 
-  function checkSearchParams(): void {
-    const newParams = new URLSearchParams(params.toString());
-    const takeParam = params.get("take");
-    const skipParam = params.get("skip");
-    if (takeParam) {
-      setTake(+takeParam);
-    } else {
-      newParams.set("take", take.toString());
-    }
-    if (skipParam) {
-      setSkip(+skipParam);
-    } else {
-      newParams.set("skip", skip.toString());
-    }
-
-    router.push(pathname + "?" + newParams.toString());
-  }
-
   function updateSearchParams(key: string, value: string): void {
     const newParams = new URLSearchParams(params.toString());
     newParams.set(key, value);
@@ -120,8 +102,26 @@ export default function ProductsPage() {
   }, []);
 
   useEffect(() => {
+    function checkSearchParams(): void {
+      const newParams = new URLSearchParams(params.toString());
+      const takeParam = params.get("take");
+      const skipParam = params.get("skip");
+      if (takeParam) {
+        setTake(+takeParam);
+      } else {
+        newParams.set("take", take.toString());
+      }
+      if (skipParam) {
+        setSkip(+skipParam);
+      } else {
+        newParams.set("skip", skip.toString());
+      }
+
+      router.push(pathname + "?" + newParams.toString());
+    }
+
     checkSearchParams();
-  }, [url]);
+  }, [url, params, pathname, router, skip, take]);
 
   return (
     <div className="flex items-center justify-center h-screen flex-col">

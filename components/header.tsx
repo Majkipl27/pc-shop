@@ -21,6 +21,7 @@ import {
   IconDoorExit,
   IconSearch,
   IconShoppingCart,
+  IconUser,
 } from "@tabler/icons-react";
 import { toast } from "./ui/use-toast";
 import { Input } from "./ui/input";
@@ -36,7 +37,7 @@ export default function Header(): JSX.Element {
     } else {
       setUser(null);
     }
-  }, []);
+  }, [setUser]);
 
   async function logoutHandler() {
     const req = await fetch("/api/auth/logout", {
@@ -77,7 +78,8 @@ export default function Header(): JSX.Element {
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Button variant="outline" asChild>
-                    <span className="text-foreground/60 hover:text-foreground/80 transition-colors">
+                    <span className="text-foreground/60 hover:text-foreground/80 transition-colors flex items-center space-x-4">
+                      <IconUser className="w-4 h-4"/>
                       {user.email}
                     </span>
                   </Button>

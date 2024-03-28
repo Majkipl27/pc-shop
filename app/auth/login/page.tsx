@@ -16,6 +16,8 @@ import { z } from "zod";
 import Bg from "./9205971.jpg";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import Spinner from "@components/spinner";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -27,6 +29,8 @@ const formSchema = z.object({
 });
 
 export default function LoginPage(): JSX.Element {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,6 +40,7 @@ export default function LoginPage(): JSX.Element {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
+    setIsLoading(true);
     const req = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
@@ -50,7 +55,9 @@ export default function LoginPage(): JSX.Element {
         toast({
           title: "Succesfully logged in!",
         });
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 400);
         break;
       case 401:
         toast({
@@ -70,6 +77,7 @@ export default function LoginPage(): JSX.Element {
           description: "An error occured.",
         });
     }
+    setIsLoading(false);
   }
 
   return (
@@ -118,8 +126,8 @@ export default function LoginPage(): JSX.Element {
                 Register
               </Link>
             </span>
-            <Button type="submit" variant="outline">
-              Login
+            <Button type="submit" variant="outline" disabled={isLoading}>
+              {isLoading ? <Spinner /> : "Login"}
             </Button>
           </form>
         </Form>
