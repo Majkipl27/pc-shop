@@ -3,8 +3,8 @@ interface filtersInterface {
   maxPrice?: number;
   skip?: number;
   take?: number;
-  date?: "asc" | "desc" | null;
-  price?: "asc" | "desc" | null;
+  date?: "asc" | "desc";
+  price?: "asc" | "desc";
 }
 
 export type { filtersInterface };

@@ -1,3 +1,4 @@
+"use client"
 import {
   computerCase,
   cpu,

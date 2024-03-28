@@ -1,30 +1,29 @@
 import { NextResponse } from "next/server";
-import {
-  getCases,
-  getCpuCooling,
-  getCpus,
-  getGpus,
-  getHardDrives,
-  getHeadsets,
-  getKeyboards,
-  getMemory,
-  getMice,
-  getMonitors,
-  getMotherboards,
-  getPowerSupplies,
-} from "./getProducts";
 import { filtersInterface } from "../interfaces";
+import { getMotherboards } from "./getMotherboards";
+import { getCases } from "./getCases";
+import { getCpus } from "./getCpus";
+import { getMemory } from "./getMemory";
+import { getGpus } from "./getGpus";
+import { getPowerSupplies } from "./getPowerSupplies";
+import { getCpuCoolings } from "./getCooling";
+import { getHardDrives } from "./getHardDrives";
+import { getHeadsets } from "./getHeadsets";
+import { getMice } from "./getMice";
+import { getKeyboards } from "./getKeyboards";
+import { getMonitors } from "./getMonitors";
+import { getWebcams } from "./getWebcams";
 
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const category = url.searchParams.get("category");
     const minPrice = url.searchParams.get("minPrice") || 0;
-    const maxPrice = url.searchParams.get("maxPrice") || 1000000;
+    const maxPrice = url.searchParams.get("maxPrice") || 999999999;
     const skip = url.searchParams.get("skip") || 0;
     const take = url.searchParams.get("take") || 10;
-    const date = url.searchParams.get("date") || null;
-    const price = url.searchParams.get("price") || null;
+    const date = url.searchParams.get("date") || undefined;
+    const price = url.searchParams.get("price") || undefined;
 
     if (!category) {
       return NextResponse.json({ error: "Provide category!" }, { status: 400 });
@@ -35,51 +34,84 @@ export async function GET(req: Request) {
       maxPrice: +maxPrice,
       skip: +skip,
       take: +take,
-      date: date as "asc" | "desc" | null,
-      price: price as "asc" | "desc" | null,
+      date: date ? (date as "asc" | "desc") : undefined,
+      price: price ? (price as "asc" | "desc") : undefined,
     };
 
-    let data: unknown;
+    let data: unknown = [];
+    let totalLength: number = 0;
 
     switch (category) {
       case "motherboards":
-        data = await getMotherboards(filters);
+        const motherboardsData = await getMotherboards(
+          filters,
+          url.searchParams
+        );
+        data = motherboardsData.motherboards;
+        totalLength = motherboardsData.totalLength;
         break;
       case "cpus":
-        data = await getCpus(filters);
+        const cpusData = await getCpus(filters, url.searchParams);
+        data = cpusData.cpus;
+        totalLength = cpusData.totalLength;
         break;
       case "memory":
-        data = await getMemory(filters);
+        const memoryData = await getMemory(filters, url.searchParams);
+        data = memoryData.memory;
+        totalLength = memoryData.totalLength;
         break;
       case "gpus":
-        data = await getGpus(filters);
+        const gpusData = await getGpus(filters, url.searchParams);
+        data = gpusData.gpus;
+        totalLength = gpusData.totalLength;
         break;
       case "cases":
-        data = await getCases(filters);
+        const casesData = await getCases(filters, url.searchParams);
+        data = casesData.cases;
+        totalLength = casesData.totalLength;
         break;
       case "power-supply":
-        data = await getPowerSupplies(filters);
+        const powerSupplyData = await getPowerSupplies(
+          filters,
+          url.searchParams
+        );
+        data = powerSupplyData.powerSupplies;
+        totalLength = powerSupplyData.totalLength;
         break;
       case "cooling":
-        data = getCpuCooling(filters);
+        const cpuCoolingData = await getCpuCoolings(filters, url.searchParams);
+        data = cpuCoolingData.cpuCoolings;
+        totalLength = cpuCoolingData.totalLength;
         break;
       case "storage":
-        data = getHardDrives(filters);
+        const hardDrivesData = await getHardDrives(filters, url.searchParams);
+        data = hardDrivesData.hardDrives;
+        totalLength = hardDrivesData.totalLength;
         break;
       case "headsets":
-        data = getHeadsets(filters);
+        const headsetsData = await getHeadsets(filters, url.searchParams);
+        data = headsetsData.headsets;
+        totalLength = headsetsData.totalLength;
         break;
-      case "mouses":
-        data = getMice(filters);
+      case "mice":
+        const miceData = await getMice(filters, url.searchParams);
+        data = miceData.mice;
+        totalLength = miceData.totalLength;
         break;
       case "keyboards":
-        data = getKeyboards(filters);
+        const keyboardsData = await getKeyboards(filters, url.searchParams);
+        data = keyboardsData.keyboards;
+        totalLength = keyboardsData.totalLength;
         break;
       case "monitors":
-        data = getMonitors(filters);
+        const monitorsData = await getMonitors(filters, url.searchParams);
+        data = monitorsData.monitors;
+        totalLength = monitorsData.totalLength;
         break;
       case "webcams":
-        data = getMonitors(filters);
+        const webcamsData = await getWebcams(filters, url.searchParams);
+        data = webcamsData.webcams;
+        totalLength = webcamsData.totalLength;
         break;
     }
 
@@ -88,6 +120,7 @@ export async function GET(req: Request) {
       body: {
         category,
         data,
+        totalLength,
       },
     });
   } catch (error) {
