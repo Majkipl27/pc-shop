@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   computerCase,
   cpu,
@@ -28,13 +28,20 @@ import Keyboards from "./products/Keyboards";
 import Mice from "./products/Mice";
 import Monitors from "./products/Monitors";
 import Webcams from "./products/Webcams";
+import Spinner from "./spinner";
 
 export default function ProductsMap({
   products,
+  isLoading,
 }: {
   products: products;
+  isLoading: boolean;
 }): JSX.Element {
   const category = products.category;
+
+  if (isLoading) {
+    return <Spinner classname="h-full"/>;
+  }
 
   switch (category) {
     case "motherboards":

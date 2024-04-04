@@ -72,7 +72,40 @@ export async function getKeyboards(
     },
   });
 
-  const totalLength = await prisma.keyboard.count();
+  const totalLength = await prisma.keyboard.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      style: {
+        in: style,
+      },
+      switches: {
+        in: switches,
+      },
+      backlit: {
+        in: backlit,
+      },
+      tenkeyless: {
+        equals:
+          tenkeyless === "true"
+            ? true
+            : tenkeyless === "false"
+            ? false
+            : undefined,
+      },
+      connection_type: {
+        in: connection_type,
+      },
+      color: {
+        in: color,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { keyboards, totalLength };
 }

@@ -60,7 +60,32 @@ export async function getPowerSupplies(
     },
   });
 
-  const totalLength = await prisma.powerSupply.count();
+  const totalLength = await prisma.powerSupply.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      type: {
+        in: type,
+      },
+      efficiency_rating: {
+        in: efficiency_rating,
+      },
+      wattage: {
+        gte: +wattage,
+      },
+      modular: {
+        in: modular,
+      },
+      color: {
+        in: color,
+      },
+      name: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { powerSupplies, totalLength };
 }

@@ -58,7 +58,35 @@ export async function getGpus(
     },
   });
 
-  const totalLength = await prisma.gpu.count();
+  const totalLength = await prisma.gpu.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      chipset: {
+        in: chipset,
+      },
+      memory: {
+        gte: +memory,
+      },
+      core_clock: {
+        gte: +coreClock,
+      },
+      boost_clock: {
+        gte: +boostClock,
+      },
+      color: {
+        in: color,
+      },
+      name: {
+        in: manufacturer,
+      },
+      length: {
+        lte: +length,
+      },
+    },
+  });
 
   return { gpus, totalLength };
 }

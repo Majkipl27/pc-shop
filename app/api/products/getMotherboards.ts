@@ -11,7 +11,7 @@ export async function getMotherboards(
       : undefined;
   const formFactor =
     searchParams.getAll("form_factor").length > 0
-      ? searchParams.getAll("formFactor")
+      ? searchParams.getAll("form_factor")
       : undefined;
   const maxMemory = searchParams.get("max_memory") || 0;
   const memorySlots =
@@ -62,7 +62,32 @@ export async function getMotherboards(
     },
   });
 
-  const totalLength = await prisma.motherboard.count();
+  const totalLength = await prisma.motherboard.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      socket: {
+        in: socket,
+      },
+      form_factor: {
+        in: formFactor,
+      },
+      max_memory: {
+        gte: +maxMemory,
+      },
+      memory_slots: {
+        in: memorySlots,
+      },
+      color: {
+        in: color,
+      },
+      name: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { motherboards, totalLength };
 }

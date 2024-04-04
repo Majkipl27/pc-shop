@@ -61,7 +61,35 @@ export async function getMonitors(
     },
   });
 
-  const totalLength = await prisma.monitor.count();
+  const totalLength = await prisma.monitor.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      screen_size: {
+        gte: +screen_size,
+      },
+      resolution: {
+        in: resolution,
+      },
+      refresh_rate: {
+        gte: +refresh_rate,
+      },
+      response_time: {
+        lte: +response_time,
+      },
+      panel_type: {
+        in: panel_type,
+      },
+      aspect_ratio: {
+        in: aspect_ratio,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { monitors, totalLength };
 }

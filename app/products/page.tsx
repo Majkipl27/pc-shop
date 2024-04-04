@@ -1,22 +1,8 @@
 "use client";
+import FiltersComponent from "@components/filtersComponent";
+import PaginationComponent from "@components/paginationComponent";
 import ProductsMap from "@components/productsMap";
-import { Button } from "@components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@components/ui/pagination";
+import SortByComponent from "@components/sortByComponent";
 import { toast } from "@components/ui/use-toast";
 import { products } from "@lib/interfaces";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -30,7 +16,14 @@ export default function ProductsPage() {
   const [totalLength, setTotalLength] = useState<number>(0);
   const [take, setTake] = useState<number>(10);
   const [skip, setSkip] = useState<number>(0);
-  const [possibleOptions, setPossibleOptions] = useState<unknown>([]);
+  const [sortBy, setSortBy] = useState<string>("?");
+  const [possibleOptions, setPossibleOptions] = useState<{
+    [key: string]: string[] | string;
+  }>({});
+  const [areProductsBeingFetched, setAreProductsBeingFetched] =
+    useState<boolean>(true);
+  const [areFiltersBeingFetched, setAreFiltersBeingFetched] =
+    useState<boolean>(true);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -39,6 +32,7 @@ export default function ProductsPage() {
   const category = params.get("category");
 
   async function fetchProducts(): Promise<void> {
+    setAreProductsBeingFetched(true);
     try {
       const req = await fetch(`/api/products?${url}`, {
         method: "GET",
@@ -52,7 +46,7 @@ export default function ProductsPage() {
       if (res.status !== 200) {
         throw new Error("Failed to fetch data.");
       } else {
-        setProducts(res.body.data);
+        setProducts({ category: res.body.category, data: res.body.data });
         setTotalLength(res.body.totalLength);
       }
     } catch (error) {
@@ -61,9 +55,11 @@ export default function ProductsPage() {
         description: "Failed to fetch data.",
       });
     }
+    setAreProductsBeingFetched(false);
   }
 
   async function fetchPossibleOptions(): Promise<void> {
+    setAreFiltersBeingFetched(true);
     try {
       const req = await fetch(
         `/api/products/possible-options?category=${category}`,
@@ -80,7 +76,7 @@ export default function ProductsPage() {
       if (res.status !== 200) {
         throw new Error("Failed to fetch possible options.");
       } else {
-        setPossibleOptions(res.body);
+        setPossibleOptions(res.body.data);
       }
     } catch (error) {
       toast({
@@ -88,6 +84,7 @@ export default function ProductsPage() {
         description: "Failed to fetch possible options.",
       });
     }
+    setAreFiltersBeingFetched(false);
   }
 
   function updateSearchParams(key: string, value: string): void {
@@ -96,160 +93,103 @@ export default function ProductsPage() {
     router.push(pathname + "?" + newParams.toString());
   }
 
+  function updateFilters(options: {
+    key: string;
+    data: string | string[] | number | boolean;
+  }): void {
+    const newParams = new URLSearchParams(params.toString());
+    if (Array.isArray(options.data)) {
+      newParams.delete(options.key);
+      options.data.forEach((p: string) => {
+        newParams.append(options.key, p);
+      });
+    } else {
+      if (options.data === "" || options.data === "0")
+        newParams.delete(options.key);
+      else newParams.set(options.key, options.data.toString());
+    }
+    router.push(pathname + "?" + newParams.toString());
+  }
+
   useEffect(() => {
-    // fetchProducts();
-    // fetchPossibleOptions();
+    fetchProducts();
+    fetchPossibleOptions();
+    const priceParam = params.get("price");
+    const dateParam = params.get("date");
+    if (priceParam) {
+      setSortBy(
+        priceParam === "asc"
+          ? "Price (asc)"
+          : priceParam === "desc"
+          ? "Price (desc)"
+          : "?"
+      );
+    } else if (dateParam) {
+      setSortBy(
+        dateParam === "asc" ? "Oldest" : dateParam === "desc" ? "Newest" : "?"
+      );
+    }
   }, []);
 
   useEffect(() => {
-    function checkSearchParams(): void {
-      const newParams = new URLSearchParams(params.toString());
-      const takeParam = params.get("take");
-      const skipParam = params.get("skip");
-      if (takeParam) {
-        setTake(+takeParam);
-      } else {
-        newParams.set("take", take.toString());
-      }
-      if (skipParam) {
-        setSkip(+skipParam);
-      } else {
-        newParams.set("skip", skip.toString());
-      }
+    fetchProducts();
+  }, [url]);
 
-      router.push(pathname + "?" + newParams.toString());
+  function checkSearchParams(): void {
+    const newParams = new URLSearchParams(params.toString());
+    const takeParam = params.get("take");
+    const skipParam = params.get("skip");
+    if (takeParam) {
+      setTake(+takeParam);
+    } else {
+      newParams.set("take", take.toString());
+    }
+    if (skipParam) {
+      setSkip(+skipParam);
+    } else {
+      newParams.set("skip", skip.toString());
     }
 
+    router.push(pathname + "?" + newParams.toString());
+  }
+
+  useEffect(() => {
     checkSearchParams();
-  }, [url, params, pathname, router, skip, take]);
+  }, [url]);
+
+  useEffect(() => {
+    const newParams = new URLSearchParams(params.toString());
+    if (sortBy === "?") {
+      return;
+    } else if (sortBy === "Newest" || sortBy === "Oldest") {
+      newParams.set("date", sortBy === "Newest" ? "desc" : "asc");
+      newParams.delete("price");
+    } else {
+      newParams.set("price", sortBy === "Price (asc)" ? "asc" : "desc");
+      newParams.delete("date");
+    }
+    router.push(pathname + "?" + newParams.toString());
+    fetchProducts();
+  }, [sortBy]);
 
   return (
-    <div className="flex items-center justify-center h-screen flex-col">
-      <h1>Products</h1>
-      <ProductsMap products={products} />
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => {
-                if (skip - take >= 0) {
-                  updateSearchParams("skip", (skip - take).toString());
-                }
-              }}
-            />
-          </PaginationItem>
-          {skip / take > 2 && (
-            <>
-              <PaginationItem>
-                <PaginationLink
-                  onClick={() => {
-                    updateSearchParams("skip", "0");
-                  }}
-                >
-                  1
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationEllipsis>
-                <PaginationLink>...</PaginationLink>
-              </PaginationEllipsis>
-            </>
-          )}
-          {skip / take >= 1 && (
-            <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  if (skip - take >= 0) {
-                    updateSearchParams("skip", (skip - take).toString());
-                  }
-                }}
-              >
-                {Math.floor(skip / take)}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-          <PaginationItem>
-            <PaginationLink isActive className="cursor-default">
-              {Math.floor(skip / take + 1)}
-            </PaginationLink>
-          </PaginationItem>
-          {skip / take < Math.ceil(totalLength) / take - 1 && (
-            <PaginationItem>
-              <PaginationLink
-                onClick={() => {
-                  if (skip + take < Math.ceil(totalLength)) {
-                    updateSearchParams("skip", (skip + take).toString());
-                  }
-                }}
-              >
-                {Math.floor(skip / take + 2)}
-              </PaginationLink>
-            </PaginationItem>
-          )}
-          {skip / take < Math.ceil(totalLength) / take - 2 && (
-            <>
-              <PaginationEllipsis>
-                <PaginationLink>...</PaginationLink>
-              </PaginationEllipsis>
-              <PaginationItem>
-                <PaginationLink
-                  onClick={() => {
-                    updateSearchParams(
-                      "skip",
-                      (Math.floor(totalLength / take) * take).toString()
-                    );
-                  }}
-                >
-                  {Math.ceil(totalLength / take)}
-                </PaginationLink>
-              </PaginationItem>
-            </>
-          )}
-          <PaginationItem>
-            <PaginationNext
-              onClick={() => {
-                if (skip + take < Math.ceil(totalLength)) {
-                  updateSearchParams("skip", (skip + take).toString());
-                }
-              }}
-            />
-          </PaginationItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="w-36">
-                Items per page: {take}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup className="w-32">
-                <DropdownMenuItem
-                  onClick={() => {
-                    setTake(10);
-                    updateSearchParams("take", "10");
-                  }}
-                >
-                  10
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    setTake(20);
-                    updateSearchParams("take", "20");
-                  }}
-                >
-                  20
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    setTake(50);
-                    updateSearchParams("take", "50");
-                  }}
-                >
-                  50
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </PaginationContent>
-      </Pagination>
+    <div className="flex items-center justify-around h-screen flex-col pb-12 pt-24 space-y-4">
+      <ProductsMap products={products} isLoading={areProductsBeingFetched} />
+      <div className="flex justify-center items-center pt-2 border-t w-full space-x-4">
+        <PaginationComponent
+          skip={skip}
+          take={take}
+          updateSearchParams={updateSearchParams}
+          totalLength={totalLength}
+          setTake={setTake}
+        />
+        <SortByComponent sortBy={sortBy} setSortBy={setSortBy} />
+        <FiltersComponent
+          possibleOptions={possibleOptions}
+          updateFilters={updateFilters}
+          areFiltersBeingFetched={areFiltersBeingFetched}
+        />
+      </div>
     </div>
   );
 }

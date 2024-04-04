@@ -18,8 +18,8 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const category = url.searchParams.get("category");
-    const minPrice = url.searchParams.get("minPrice") || 0;
-    const maxPrice = url.searchParams.get("maxPrice") || 999999999;
+    const minPrice = url.searchParams.get("minPrice") || undefined;
+    const maxPrice = url.searchParams.get("maxPrice") || undefined;
     const skip = url.searchParams.get("skip") || 0;
     const take = url.searchParams.get("take") || 10;
     const date = url.searchParams.get("date") || undefined;
@@ -30,8 +30,8 @@ export async function GET(req: Request) {
     }
 
     const filters: filtersInterface = {
-      minPrice: +minPrice,
-      maxPrice: +maxPrice,
+      minPrice: minPrice ? +minPrice : undefined,
+      maxPrice: maxPrice ? +maxPrice : undefined,
       skip: +skip,
       take: +take,
       date: date ? (date as "asc" | "desc") : undefined,

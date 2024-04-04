@@ -56,7 +56,7 @@ export default function Header(): JSX.Element {
   }
 
   return !pathname.startsWith("/auth") ? (
-    <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 z-50 w-full border-b border-border bg-background/60 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 gap-2 max-w-screen-2xl items-center">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">

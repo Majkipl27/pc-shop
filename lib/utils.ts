@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -11,12 +11,16 @@ export function jsonResponse(status: number, data: any, init?: ResponseInit) {
     status,
     headers: {
       ...init?.headers,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-  })
+  });
 }
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function transformBadName(name: string) {
+  name = name.slice(1, -1);
+  return name.replaceAll(",", " ");
+}

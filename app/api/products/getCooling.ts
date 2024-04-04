@@ -43,7 +43,26 @@ export async function getCpuCoolings(
     },
   });
 
-  const totalLength = await prisma.cpuCooling.count();
+  const totalLength = await prisma.cpuCooling.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      rpm: {
+        gte: +rpm,
+      },
+      color: {
+        in: color,
+      },
+      size: {
+        lte: +size,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { cpuCoolings, totalLength };
 }

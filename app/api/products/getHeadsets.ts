@@ -63,7 +63,38 @@ export async function getHeadsets(
     },
   });
 
-  const totalLength = await prisma.headset.count();
+  const totalLength = await prisma.headset.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      type: {
+        in: type,
+      },
+      microphone: {
+        equals:
+          microphone === "true"
+            ? true
+            : microphone === "false"
+            ? false
+            : undefined,
+      },
+      wireless: {
+        equals:
+          wireless === "true" ? true : wireless === "false" ? false : undefined,
+      },
+      enclosure_type: {
+        in: enclosure_type,
+      },
+      color: {
+        in: color,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { headsets, totalLength };
 }

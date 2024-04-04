@@ -1,4 +1,8 @@
-export default function Spinner(): JSX.Element {
+export default function Spinner({
+  classname,
+}: {
+  classname?: string;
+}): JSX.Element {
   return (
     <svg
       width="24"
@@ -6,6 +10,7 @@ export default function Spinner(): JSX.Element {
       stroke="currentColor"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      className={classname}
     >
       <g>
         <circle
@@ -13,8 +18,8 @@ export default function Spinner(): JSX.Element {
           cy="12"
           r="9.5"
           fill="none"
-          stroke-width="3"
-          stroke-linecap="round"
+          strokeWidth="3"
+          strokeLinecap="round"
         >
           <animate
             attributeName="stroke-dasharray"

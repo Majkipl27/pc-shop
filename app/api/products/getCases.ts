@@ -64,7 +64,35 @@ export async function getCases(
     },
   });
 
-  const totalLength = await prisma.case.count();
+  const totalLength = await prisma.case.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      type: {
+        in: type,
+      },
+      color: {
+        in: color,
+      },
+      psu: {
+        in: psu,
+      },
+      side_panel: {
+        in: sidePanel,
+      },
+      external_volume: {
+        gte: +externalVolume,
+      },
+      internal_35_bays: {
+        gte: +internal35Bays,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { cases, totalLength };
 }

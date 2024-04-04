@@ -56,7 +56,29 @@ export async function getWebcams(
     },
   });
 
-  const totalLength = await prisma.webcam.count();
+  const totalLength = await prisma.webcam.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      resolutions: {
+        in: resolution,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+      connection: {
+        in: connection,
+      },
+      focus_type: {
+        in: focus_type,
+      },
+      fov: {
+        in: fov,
+      },
+    },
+  });
 
   return { webcams, totalLength };
 }

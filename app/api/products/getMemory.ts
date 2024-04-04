@@ -58,7 +58,35 @@ export async function getMemory(
     },
   });
 
-  const totalLength = await prisma.memory.count();
+  const totalLength = await prisma.memory.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      speed: {
+        gte: +speed,
+      },
+      modules: {
+        in: modules?.map((m) => +m),
+      },
+      price_per_gb: {
+        lte: +pricePerGb,
+      },
+      color: {
+        in: color,
+      },
+      first_word_latency: {
+        lte: +firstWordLatency,
+      },
+      cas_latency: {
+        lte: +casLatency,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { memory, totalLength };
 }

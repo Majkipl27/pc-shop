@@ -60,7 +60,32 @@ export async function getMice(
     },
   });
 
-  const totalLength = await prisma.mouse.count();
+  const totalLength = await prisma.mouse.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      tracking_method: {
+        in: tracking_method,
+      },
+      connection_type: {
+        in: connection_type,
+      },
+      hand_orientation: {
+        in: hand_orientation,
+      },
+      max_dpi: {
+        lte: +max_dpi,
+      },
+      color: {
+        in: color,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { mice, totalLength };
 }

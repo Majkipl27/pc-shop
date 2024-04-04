@@ -55,7 +55,35 @@ export async function getHardDrives(
     },
   });
 
-  const totalLength = await prisma.hardDrive.count();
+  const totalLength = await prisma.hardDrive.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      capacity: {
+        gte: +capacity,
+      },
+      price_per_gb: {
+        lte: +price_per_gb,
+      },
+      type: {
+        in: type,
+      },
+      cache: {
+        gte: +cache,
+      },
+      form_factor: {
+        equals: form_factor,
+      },
+      interface: {
+        equals: interfaceType,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { hardDrives, totalLength };
 }

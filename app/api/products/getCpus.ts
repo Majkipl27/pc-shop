@@ -32,9 +32,18 @@ export async function getCpus(
       core_clock: {
         gte: +coreClock,
       },
-      boost_clock: {
-        gte: +boostClock,
-      },
+      OR: [
+        {
+          boost_clock: {
+            gte: +boostClock,
+          },
+        },
+        {
+          boost_clock: {
+            equals: null,
+          },
+        },
+      ],
       tdp: {
         lte: +maxTdp,
       },
@@ -51,7 +60,32 @@ export async function getCpus(
     },
   });
 
-  const totalLength = await prisma.cpu.count();
+  const totalLength = await prisma.cpu.count({
+    where: {
+      price: {
+        gte: filters.minPrice,
+        lte: filters.maxPrice,
+      },
+      core_count: {
+        gte: +coreCount,
+      },
+      core_clock: {
+        gte: +coreClock,
+      },
+      boost_clock: {
+        gte: +boostClock,
+      },
+      tdp: {
+        lte: +maxTdp,
+      },
+      graphics: {
+        in: graphics,
+      },
+      manufacturer: {
+        in: manufacturer,
+      },
+    },
+  });
 
   return { cpus, totalLength };
 }
