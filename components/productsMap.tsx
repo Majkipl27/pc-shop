@@ -56,9 +56,9 @@ export default function ProductsMap({
       return <Cases data={products.data as computerCase[]} />;
     case "power-supply":
       return <PowerSupplies data={products.data as powerSupply[]} />;
-    case "cpu-cooling":
+    case "cooling":
       return <CpuCooling data={products.data as cpuCooling[]} />;
-    case "hard-drives":
+    case "storage":
       return <HardDrives data={products.data as hardDrive[]} />;
     case "headsets":
       return <Headsets data={products.data as headset[]} />;

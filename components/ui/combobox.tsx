@@ -41,7 +41,7 @@ export function Combobox({
 
   React.useEffect(() => {
     onChange(checkedCheckboxes);
-  }, [checkedCheckboxes]);
+  }, [checkedCheckboxes, onChange]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -74,15 +74,19 @@ export function Combobox({
                 <CommandItem key={i.value} value={i.value}>
                   <div className="flex items-center space-x-2">
                     <Checkbox
-                      checked={checkedCheckboxes.includes(i.value)}
+                      defaultChecked={checkedCheckboxes.includes(
+                        i.value.toString()
+                      )}
                       id={i.value}
                       value={i.value}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          setCheckedCheckboxes([...checkedCheckboxes, i.value]);
+                          setCheckedCheckboxes([...checkedCheckboxes, i.value.toString()]);
                         } else {
                           setCheckedCheckboxes(
-                            checkedCheckboxes.filter((c) => c !== i.value)
+                            checkedCheckboxes.filter(
+                              (c) => c !== i.value.toString()
+                            )
                           );
                         }
                       }}

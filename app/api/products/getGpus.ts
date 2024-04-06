@@ -30,6 +30,28 @@ export async function getGpus(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          boost_clock: {
+            gte: +boostClock,
+          },
+        },
+        {
+          boost_clock: {
+            equals: null,
+          },
+        },
+        {
+          length: {
+            lte: +length,
+          },
+        },
+        {
+          length: {
+            equals: null,
+          },
+        },
+      ],
       chipset: {
         in: chipset,
       },
@@ -39,17 +61,11 @@ export async function getGpus(
       core_clock: {
         gte: +coreClock,
       },
-      boost_clock: {
-        gte: +boostClock,
-      },
       color: {
         in: color,
       },
       name: {
         in: manufacturer,
-      },
-      length: {
-        lte: +length,
       },
     },
     orderBy: {
@@ -64,6 +80,28 @@ export async function getGpus(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          boost_clock: {
+            gte: +boostClock,
+          },
+        },
+        {
+          boost_clock: {
+            equals: null,
+          },
+        },
+        {
+          length: {
+            lte: +length,
+          },
+        },
+        {
+          length: {
+            equals: null,
+          },
+        },
+      ],
       chipset: {
         in: chipset,
       },
@@ -73,17 +111,11 @@ export async function getGpus(
       core_clock: {
         gte: +coreClock,
       },
-      boost_clock: {
-        gte: +boostClock,
-      },
       color: {
         in: color,
       },
       name: {
         in: manufacturer,
-      },
-      length: {
-        lte: +length,
       },
     },
   });
@@ -92,7 +124,7 @@ export async function getGpus(
 }
 
 export async function getGpusOptions() {
-  const allCpuCoolings = await prisma.cpuCooling.findMany();
+  const allGpus = await prisma.gpu.findMany();
 
   let possibleOptions: any = {
     chipset: new Set<string>(),
@@ -100,7 +132,7 @@ export async function getGpusOptions() {
     name: new Set<string>(),
   };
 
-  allCpuCoolings.forEach((g) => {
+  allGpus.forEach((g) => {
     for (const [key, value] of Object.entries(g)) {
       possibleOptions[key] && value && possibleOptions[key].add(value);
     }

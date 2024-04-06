@@ -23,7 +23,9 @@ import { Separator } from "@components/ui/separator";
 export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
   if (data.length === 0) {
     return (
-      <p className="block h-full">No cpu's, matching your criteria found.</p>
+      <p className="block h-full">
+        No cpus, matching your criteria found.
+      </p>
     );
   }
 
@@ -75,7 +77,7 @@ export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
                           " " +
                           transformBadName(cpu.name || "")}
                       </DialogTitle>
-                      <DialogDescription>cpu details.</DialogDescription>
+                      <DialogDescription>Cpu details.</DialogDescription>
                     </DialogHeader>
                     <div className="flex flex-col items-center space-y-1 border-l border-b p-1 rounded-b-lg shadow-sm">
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

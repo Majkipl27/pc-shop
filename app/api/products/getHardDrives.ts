@@ -7,7 +7,7 @@ export async function getHardDrives(
 ) {
   const capacity = searchParams.get("capacity") || 0;
   const price_per_gb = searchParams.get("price_per_gb") || 1000;
-  const type =
+  let type =
     searchParams.getAll("type").length > 0
       ? searchParams.getAll("type")
       : undefined;
@@ -19,7 +19,15 @@ export async function getHardDrives(
       ? searchParams.getAll("manufacturer")
       : undefined;
 
-  const hardDrives = await prisma.hardDrive.findMany({
+  type = type?.map((type) => {
+    if (type.includes("HDD")) {
+      return type.split(" ")[1];
+    } else {
+      return type;
+    }
+  });
+
+  let hardDrives = await prisma.hardDrive.findMany({
     take: filters.take,
     skip: filters.skip,
     where: {
@@ -27,17 +35,30 @@ export async function getHardDrives(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          price_per_gb: {
+            lte: +price_per_gb,
+          },
+        },
+        {
+          price_per_gb: {
+            equals: null,
+          },
+        },
+        {
+          cache: {
+            gte: +cache,
+          },
+        },
+        {
+          cache: {
+            equals: null,
+          },
+        },
+      ],
       capacity: {
         gte: +capacity,
-      },
-      price_per_gb: {
-        lte: +price_per_gb,
-      },
-      type: {
-        in: type,
-      },
-      cache: {
-        gte: +cache,
       },
       form_factor: {
         equals: form_factor,
@@ -47,6 +68,9 @@ export async function getHardDrives(
       },
       manufacturer: {
         in: manufacturer,
+      },
+      type: {
+        in: type,
       },
     },
     orderBy: {
@@ -55,23 +79,44 @@ export async function getHardDrives(
     },
   });
 
+  hardDrives = hardDrives.map((hd) => {
+    if (hd.type !== "SSD") {
+      let copy = hd;
+      copy.type = "HDD " + copy.type + " RPM";
+      return copy;
+    } else return hd;
+  });
+
   const totalLength = await prisma.hardDrive.count({
     where: {
       price: {
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          price_per_gb: {
+            lte: +price_per_gb,
+          },
+        },
+        {
+          price_per_gb: {
+            equals: null,
+          },
+        },
+        {
+          cache: {
+            gte: +cache,
+          },
+        },
+        {
+          cache: {
+            equals: null,
+          },
+        },
+      ],
       capacity: {
         gte: +capacity,
-      },
-      price_per_gb: {
-        lte: +price_per_gb,
-      },
-      type: {
-        in: type,
-      },
-      cache: {
-        gte: +cache,
       },
       form_factor: {
         equals: form_factor,
@@ -81,6 +126,9 @@ export async function getHardDrives(
       },
       manufacturer: {
         in: manufacturer,
+      },
+      type: {
+        in: type,
       },
     },
   });
@@ -111,8 +159,7 @@ export async function getHardDrivesOptions() {
   possibleOptions.type = possibleOptions.type.map((type: string) => {
     if (type !== "SSD") {
       return "HDD " + type + " RPM";
-    }
-    return type;
+    } else return type;
   });
 
   possibleOptions.capacity = "gte";

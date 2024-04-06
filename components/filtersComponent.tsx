@@ -65,11 +65,13 @@ export default function FiltersComponent({
                       data={value.map((v) => {
                         return { label: v, value: v };
                       })}
-                      defaultCheckedCheckboxes={params.getAll(key) as string[]}
+                      defaultCheckedCheckboxes={
+                        params.getAll(key).map((d) => d.toString()) as string[]
+                      }
                       onChange={(data: string[]) => {
                         updateFilters({
                           key: key,
-                          data: data,
+                          data: data.map((d) => d.toString()),
                         });
                       }}
                     />
@@ -124,8 +126,8 @@ export default function FiltersComponent({
                         }}
                       />
                       <label htmlFor={key}>
-                        {checkedBooleans[key] ? "Enabled" : "Disabled"} (don't
-                        touch for ignore)
+                        {checkedBooleans[key] ? "Enabled" : "Disabled"}
+                        (don&apos;t touch for ignore)
                       </label>
                     </div>
                   )}
@@ -133,7 +135,7 @@ export default function FiltersComponent({
               );
             })}
             <div>
-              <p className="font-bold mb-2">$ Price</p>
+              <p className="font-bold mb-2">Price $</p>
               <div className="flex flex-row space-x-2">
                 <Input
                   type="number"

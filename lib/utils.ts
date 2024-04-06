@@ -24,3 +24,7 @@ export function transformBadName(name: string) {
   name = name.slice(1, -1);
   return name.replaceAll(",", " ");
 }
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

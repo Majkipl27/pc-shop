@@ -26,12 +26,6 @@ export async function getCpus(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
-      core_count: {
-        gte: +coreCount,
-      },
-      core_clock: {
-        gte: +coreClock,
-      },
       OR: [
         {
           boost_clock: {
@@ -44,6 +38,12 @@ export async function getCpus(
           },
         },
       ],
+      core_count: {
+        gte: +coreCount,
+      },
+      core_clock: {
+        gte: +coreClock,
+      },
       tdp: {
         lte: +maxTdp,
       },
@@ -66,14 +66,23 @@ export async function getCpus(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          boost_clock: {
+            gte: +boostClock,
+          },
+        },
+        {
+          boost_clock: {
+            equals: null,
+          },
+        },
+      ],
       core_count: {
         gte: +coreCount,
       },
       core_clock: {
         gte: +coreClock,
-      },
-      boost_clock: {
-        gte: +boostClock,
       },
       tdp: {
         lte: +maxTdp,

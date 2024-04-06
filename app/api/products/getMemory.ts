@@ -30,14 +30,24 @@ export async function getMemory(
         gte: filters.minPrice,
         lte: filters.maxPrice,
       },
+      OR: [
+        {
+          price_per_gb: {
+            gte: filters.minPrice,
+            lte: filters.maxPrice,
+          },
+        },
+        {
+          price_per_gb: {
+            equals: null,
+          },
+        },
+      ],
       speed: {
         gte: +speed,
       },
       modules: {
         in: modules?.map((m) => +m),
-      },
-      price_per_gb: {
-        lte: +pricePerGb,
       },
       color: {
         in: color,
