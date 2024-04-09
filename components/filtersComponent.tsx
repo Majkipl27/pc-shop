@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Combobox } from "./ui/combobox";
 import { Input } from "./ui/input";
@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Switch } from "./ui/switch";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Spinner from "./spinner";
 
 export default function FiltersComponent({
@@ -27,11 +27,23 @@ export default function FiltersComponent({
     data: string | string[] | number | boolean;
   }) => void;
   areFiltersBeingFetched: boolean;
-}): JSX.Element {
+}): JSX.Element | null {
   const [checkedBooleans, setCheckedBooleans] = useState<{
     [key: string]: boolean;
   }>({});
   const params = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const newParams = new URLSearchParams(params);
+    for (const key in checkedBooleans) {
+      newParams.set(key, checkedBooleans[key].toString());
+    }
+    router.push(pathname + "?" + newParams.toString());
+  }, [checkedBooleans]);
+
+  if (params.get("category") === null) return null;
 
   return (
     <Sheet>
@@ -119,14 +131,10 @@ export default function FiltersComponent({
                             ...checkedBooleans,
                             [key]: checked,
                           });
-                          updateFilters({
-                            key: key,
-                            data: checked,
-                          });
                         }}
                       />
                       <label htmlFor={key}>
-                        {checkedBooleans[key] ? "Enabled" : "Disabled"}
+                        {checkedBooleans[key] ? "Enabled " : "Disabled "}
                         (don&apos;t touch for ignore)
                       </label>
                     </div>

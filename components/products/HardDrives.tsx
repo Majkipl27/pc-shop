@@ -68,7 +68,9 @@ export default function HardDrives({
                 </p>
               </TableCell>
               <TableCell>
-                <p>{hardDrive.capacity}</p>
+                <p>
+                  {hardDrive.capacity ? hardDrive.capacity + "Gb" : "No data"}
+                </p>
               </TableCell>
               <TableCell>
                 <p>{hardDrive.type}</p>
@@ -108,7 +110,11 @@ export default function HardDrives({
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Capacity: </span>
-                        <span>{hardDrive.capacity + "Gb"}</span>
+                        <span>
+                          {hardDrive.capacity
+                            ? hardDrive.capacity + "Gb"
+                            : "No data"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
@@ -125,7 +131,11 @@ export default function HardDrives({
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Form factor: </span>
-                        <span>{hardDrive.form_factor}</span>
+                        <span>
+                          {hardDrive.form_factor
+                            ? hardDrive.form_factor + "″"
+                            : "No data"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

@@ -62,10 +62,14 @@ export default function Memory({ data }: { data: memory[] }): JSX.Element {
                 </p>
               </TableCell>
               <TableCell>
-                <p>{memory.speed}</p>
+                <p>{memory.speed ? memory.speed + "Mhz" : "No data"}</p>
               </TableCell>
               <TableCell>
-                <p>{memory.price_per_gb || "Not in stock!"}</p>
+                <p>
+                  {memory.price_per_gb === null
+                    ? "Not in stock!"
+                    : memory.price_per_gb + " $"}
+                </p>
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <Dialog>
@@ -93,7 +97,9 @@ export default function Memory({ data }: { data: memory[] }): JSX.Element {
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Speed: </span>
-                        <span>{memory.speed + "Mhz"}</span>
+                        <span>
+                          {memory.speed ? memory.speed + "Mhz" : "No data"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

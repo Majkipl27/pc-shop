@@ -105,7 +105,7 @@ export default function ProductsPage() {
       });
     } else {
       if (options.data === "" || options.data === "0")
-        newParams.delete(options.key);
+        newParams.delete(options.key.toString());
       else newParams.set(options.key, options.data.toString());
     }
     router.push(pathname + "?" + newParams.toString());

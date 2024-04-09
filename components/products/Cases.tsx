@@ -118,7 +118,7 @@ export default function Cases({ data }: { data: computerCase[] }): JSX.Element {
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Internal 3,5 bays: </span>
+                        <span className="font-bold">Internal 3,5″ bays: </span>
                         <span>{cc.internal_35_bays || "No data"}</span>
                       </p>
                       <Separator />

@@ -26,11 +26,18 @@ export async function getMemory(
     take: filters.take,
     skip: filters.skip,
     where: {
-      price: {
-        gte: filters.minPrice,
-        lte: filters.maxPrice,
-      },
       OR: [
+        {
+          price: {
+            gte: filters.minPrice,
+            lte: filters.maxPrice,
+          },
+        },
+        {
+          price: {
+            equals: null,
+          },
+        },
         {
           price_per_gb: {
             gte: filters.minPrice,
@@ -70,18 +77,35 @@ export async function getMemory(
 
   const totalLength = await prisma.memory.count({
     where: {
-      price: {
-        gte: filters.minPrice,
-        lte: filters.maxPrice,
-      },
+      OR: [
+        {
+          price: {
+            gte: filters.minPrice,
+            lte: filters.maxPrice,
+          },
+        },
+        {
+          price: {
+            equals: null,
+          },
+        },
+        {
+          price_per_gb: {
+            gte: filters.minPrice,
+            lte: filters.maxPrice,
+          },
+        },
+        {
+          price_per_gb: {
+            equals: null,
+          },
+        },
+      ],
       speed: {
         gte: +speed,
       },
       modules: {
         in: modules?.map((m) => +m),
-      },
-      price_per_gb: {
-        lte: +pricePerGb,
       },
       color: {
         in: color,

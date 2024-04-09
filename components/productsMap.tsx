@@ -29,6 +29,7 @@ import Mice from "./products/Mice";
 import Monitors from "./products/Monitors";
 import Webcams from "./products/Webcams";
 import Spinner from "./spinner";
+import { useRouter } from "next/navigation";
 
 export default function ProductsMap({
   products,
@@ -36,11 +37,12 @@ export default function ProductsMap({
 }: {
   products: products;
   isLoading: boolean;
-}): JSX.Element {
+}): JSX.Element | null {
   const category = products.category;
+  const router = useRouter();
 
   if (isLoading) {
-    return <Spinner classname="h-full"/>;
+    return <Spinner classname="h-full" />;
   }
 
   switch (category) {
@@ -71,6 +73,7 @@ export default function ProductsMap({
     case "webcams":
       return <Webcams data={products.data as webcam[]} />;
     default:
-      return <div>{products.category}</div>;
+      router.push("/");
+      return null;
   }
 }

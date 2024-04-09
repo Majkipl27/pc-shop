@@ -67,7 +67,7 @@ export default function PowerSupplies({ data }: { data: powerSupply[] }): JSX.El
                 </p>
               </TableCell>
               <TableCell>
-                <p>{ps.wattage}</p>
+                <p>{ps.wattage ? ps.wattage + "W" : "No data"}</p>
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <Dialog>
@@ -106,7 +106,7 @@ export default function PowerSupplies({ data }: { data: powerSupply[] }): JSX.El
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Wattage: </span>
-                        <span>{ps.wattage + "W"}</span>
+                        <span>{ps.wattage ? ps.wattage + "W" : "No data"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

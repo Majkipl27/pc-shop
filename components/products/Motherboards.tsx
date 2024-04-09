@@ -110,8 +110,8 @@ export default function Motherboards({
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Max memory (gb): </span>
-                        <span>{motherboard.max_memory}</span>
+                        <span className="font-bold">Max memory: </span>
+                        <span>{motherboard.max_memory ? motherboard.max_memory + "Gb" : "No data"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

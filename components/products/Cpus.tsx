@@ -95,18 +95,18 @@ export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Core clock (Ghz): </span>
-                        <span>{cpu.core_clock}</span>
+                        <span className="font-bold">Core clock: </span>
+                        <span>{cpu.core_clock ? cpu.core_clock + "Ghz" : "No data"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Boost clock (Ghz): </span>
-                        <span>{cpu.boost_clock || "Core not unlocked"}</span>
+                        <span className="font-bold">Boost clock: </span>
+                        <span>{cpu.boost_clock ? cpu.boost_clock + "Ghz" : "Core not unlocked"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Tdp (W): </span>
-                        <span>{cpu.tdp}</span>
+                        <span className="font-bold">Tdp: </span>
+                        <span>{cpu.tdp ? cpu.tdp + "W" : "No data"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

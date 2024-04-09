@@ -63,7 +63,7 @@ export default function Gpus({ data }: { data: gpu[] }): JSX.Element {
                 <p>{gpu.chipset}</p>
               </TableCell>
               <TableCell>
-                <p>{gpu.memory}</p>
+                <p>{gpu.memory ? gpu.memory + "Gb" : "No data"}</p>
               </TableCell>
               <TableCell className="flex items-center justify-center">
                 <Dialog>
