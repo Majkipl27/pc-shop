@@ -18,14 +18,9 @@ import Spinner from "./spinner";
 
 export default function FiltersComponent({
   possibleOptions,
-  updateFilters,
   areFiltersBeingFetched,
 }: {
   possibleOptions: { [key: string]: string[] | string };
-  updateFilters: (options: {
-    key: string;
-    data: string | string[] | number | boolean;
-  }) => void;
   areFiltersBeingFetched: boolean;
 }): JSX.Element | null {
   const [checkedBooleans, setCheckedBooleans] = useState<{
@@ -35,13 +30,66 @@ export default function FiltersComponent({
   const router = useRouter();
   const pathname = usePathname();
 
+  function updateFilters(options: {
+    key: string;
+    data: string | string[] | number | boolean;
+  }): void {
+    const newParams = new URLSearchParams(params.toString());
+    if (Array.isArray(options.data)) {
+      newParams.delete(options.key);
+      options.data.forEach((p: string) => {
+        newParams.append(options.key, p);
+      });
+    } else {
+      if (options.data === "" || options.data === "0")
+        newParams.delete(options.key.toString());
+      else newParams.set(options.key, options.data.toString());
+    }
+    router.push(pathname + "?" + newParams.toString());
+  }
+
+  function deleteSearchParam(key: string): void {
+    const newParams = new URLSearchParams(params.toString());
+    newParams.delete(key);
+    setCheckedBooleans((checkedBooleans) => {
+      delete checkedBooleans[key];
+      return { ...checkedBooleans };
+    });
+    router.push(pathname + "?" + newParams.toString());
+  }
+
   useEffect(() => {
     const newParams = new URLSearchParams(params);
+    const possibleBooleans: string[] = [];
+    for (const key in possibleOptions) {
+      if (possibleOptions[key] === "boolean") {
+        possibleBooleans.push(key);
+      }
+    }
+    possibleBooleans.forEach((key) => {
+      newParams.delete(key);
+    });
     for (const key in checkedBooleans) {
       newParams.set(key, checkedBooleans[key].toString());
     }
     router.push(pathname + "?" + newParams.toString());
   }, [checkedBooleans]);
+
+  useEffect(() => {
+    if (!possibleOptions) return;
+    const newCheckedBooleans: { [key: string]: boolean } = {};
+    const possibleBooleans: string[] = [];
+    for (const key in possibleOptions) {
+      if (possibleOptions[key] === "boolean") {
+        possibleBooleans.push(key);
+      }
+    }
+    possibleBooleans.forEach((key) => {
+      if (params.get(key) === null) return;
+      newCheckedBooleans[key] = params.get(key) === "true";
+    });
+    setCheckedBooleans(newCheckedBooleans);
+  }, [possibleOptions, setCheckedBooleans]);
 
   if (params.get("category") === null) return null;
 
@@ -125,7 +173,7 @@ export default function FiltersComponent({
                     <div className="flex items-center space-x-2">
                       <Switch
                         id={key}
-                        defaultChecked={params.get(key) === "true"}
+                        checked={checkedBooleans[key] ? true : false}
                         onCheckedChange={(checked) => {
                           setCheckedBooleans({
                             ...checkedBooleans,
@@ -134,9 +182,22 @@ export default function FiltersComponent({
                         }}
                       />
                       <label htmlFor={key}>
-                        {checkedBooleans[key] ? "Enabled " : "Disabled "}
-                        (don&apos;t touch for ignore)
+                        {checkedBooleans[key] !== undefined
+                          ? checkedBooleans[key] === true
+                            ? "Enabled"
+                            : "Disabled"
+                          : "Enable/Disable"}
                       </label>
+                      {checkedBooleans[key] ? (
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            deleteSearchParam(key);
+                          }}
+                        >
+                          Clear
+                        </Button>
+                      ) : null}
                     </div>
                   )}
                 </div>

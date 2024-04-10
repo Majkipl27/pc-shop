@@ -93,24 +93,6 @@ export default function ProductsPage() {
     router.push(pathname + "?" + newParams.toString());
   }
 
-  function updateFilters(options: {
-    key: string;
-    data: string | string[] | number | boolean;
-  }): void {
-    const newParams = new URLSearchParams(params.toString());
-    if (Array.isArray(options.data)) {
-      newParams.delete(options.key);
-      options.data.forEach((p: string) => {
-        newParams.append(options.key, p);
-      });
-    } else {
-      if (options.data === "" || options.data === "0")
-        newParams.delete(options.key.toString());
-      else newParams.set(options.key, options.data.toString());
-    }
-    router.push(pathname + "?" + newParams.toString());
-  }
-
   useEffect(() => {
     fetchProducts();
     fetchPossibleOptions();
@@ -186,7 +168,6 @@ export default function ProductsPage() {
         <SortByComponent sortBy={sortBy} setSortBy={setSortBy} />
         <FiltersComponent
           possibleOptions={possibleOptions}
-          updateFilters={updateFilters}
           areFiltersBeingFetched={areFiltersBeingFetched}
         />
       </div>

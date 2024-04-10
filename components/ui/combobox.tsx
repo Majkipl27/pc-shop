@@ -46,23 +46,35 @@ export function Combobox({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {value
-            ? data.find((i) => i.value === value)?.label
-            : checkBoxes
-            ? checkedCheckboxes.length > 0
-              ? `${checkedCheckboxes.length} ${
-                  checkedCheckboxes.length === 1 ? " checkbox" : " checkboxes"
-                } selected`
-              : placeholder
-            : placeholder}
-          <IconCaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-full justify-between"
+          >
+            {value
+              ? data.find((i) => i.value === value)?.label
+              : checkBoxes
+              ? checkedCheckboxes.length > 0
+                ? `${checkedCheckboxes.length} ${
+                    checkedCheckboxes.length === 1 ? " checkbox" : " checkboxes"
+                  } selected`
+                : placeholder
+              : placeholder}
+            <IconCaretUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+          {checkedCheckboxes.length > 0 && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setCheckedCheckboxes([]);
+              }}
+            >
+              Clear
+            </Button>
+          )}
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-[330px] p-0">
         <Command>
@@ -81,7 +93,10 @@ export function Combobox({
                       value={i.value}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          setCheckedCheckboxes([...checkedCheckboxes, i.value.toString()]);
+                          setCheckedCheckboxes([
+                            ...checkedCheckboxes,
+                            i.value.toString(),
+                          ]);
                         } else {
                           setCheckedCheckboxes(
                             checkedCheckboxes.filter(
