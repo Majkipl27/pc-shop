@@ -30,7 +30,7 @@ export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Cpus</TableCaption>
       <TableHeader>
         <TableRow>
@@ -96,12 +96,18 @@ export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Core clock: </span>
-                        <span>{cpu.core_clock ? cpu.core_clock + "Ghz" : "No data"}</span>
+                        <span>
+                          {cpu.core_clock ? cpu.core_clock + "Ghz" : "No data"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Boost clock: </span>
-                        <span>{cpu.boost_clock ? cpu.boost_clock + "Ghz" : "Core not unlocked"}</span>
+                        <span>
+                          {cpu.boost_clock
+                            ? cpu.boost_clock + "Ghz"
+                            : "Core not unlocked"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">

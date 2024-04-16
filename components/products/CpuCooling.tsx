@@ -25,11 +25,6 @@ export default function CpuCooling({
 }: {
   data: cpuCooling[];
 }): JSX.Element {
-  /* 
-  rpm: number | null;
-  color: string | null;
-  size: number | null;
-*/
   if (data.length === 0) {
     return (
       <p className="block h-full">No cases, matching your criteria found.</p>
@@ -37,7 +32,7 @@ export default function CpuCooling({
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Cpu cooling</TableCaption>
       <TableHeader>
         <TableRow>

@@ -30,7 +30,7 @@ export default function PowerSupplies({ data }: { data: powerSupply[] }): JSX.El
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Power supplies</TableCaption>
       <TableHeader>
         <TableRow>

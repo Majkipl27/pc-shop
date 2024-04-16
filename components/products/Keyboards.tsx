@@ -28,7 +28,7 @@ export default function Keyboards({ data }: { data: keyboard[] }): JSX.Element {
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Keyboards</TableCaption>
       <TableHeader>
         <TableRow>
@@ -104,16 +104,12 @@ export default function Keyboards({ data }: { data: keyboard[] }): JSX.Element {
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">
-                          Backlit:
-                        </span>
+                        <span className="font-bold">Backlit:</span>
                         <span>{k.backlit || "No"}</span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">
-                          Ten key less:
-                        </span>
+                        <span className="font-bold">Ten key less:</span>
                         <span>{k.backlit ? "Yes" : "No"}</span>
                       </p>
                       <Separator />

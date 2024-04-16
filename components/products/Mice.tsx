@@ -28,7 +28,7 @@ export default function Mice({ data }: { data: mouse[] }): JSX.Element {
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Mice</TableCaption>
       <TableHeader>
         <TableRow>
@@ -104,7 +104,9 @@ export default function Mice({ data }: { data: mouse[] }): JSX.Element {
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
-                        <span className="font-bold">Hand hand_orientation: </span>
+                        <span className="font-bold">
+                          Hand hand_orientation:{" "}
+                        </span>
                         <span>{m.hand_orientation || "Both"}</span>
                       </p>
                       <Separator />

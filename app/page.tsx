@@ -40,7 +40,7 @@ export default function HomePage() {
             <IconArrowRight className="ml-2" />
           </div>
         </Link>
-        <Link href="/configurator" legacyBehavior passHref>
+        <Link href="/categories" legacyBehavior passHref>
           <div className="group inline-flex h-9 w-full items-center justify-between hover:px-5 py-6 rounded-md bg-background px-4 text-lg font-medium transition-all hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50 cursor-pointer">
             <span className="flex items-center gap-2">
               <IconCategory />

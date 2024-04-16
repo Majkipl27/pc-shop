@@ -133,7 +133,7 @@ export default function HeaderNav(): JSX.Element {
                   A headset combines a headphone with a microphone.
                 </ListItem>
                 <ListItem
-                  title="Mouses"
+                  title="Mice"
                   href="/products?category=mice"
                   icon={<IconMouse className="w-5 h-5" />}
                   className="h-[100px]"

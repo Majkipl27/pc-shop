@@ -30,7 +30,7 @@ export default function Gpus({ data }: { data: gpu[] }): JSX.Element {
   }
 
   return (
-    <Table className="w-2/3 mx-auto">
+    <Table className="w-2/3 mx-auto bg-background/40 rounded-lg overflow-hidden">
       <TableCaption>Graphics cards</TableCaption>
       <TableHeader>
         <TableRow>

@@ -106,3 +106,19 @@ export async function getWebcamsOptions() {
 
   return possibleOptions;
 }
+
+export async function getData() {
+  const products = await prisma.products.findMany({
+    select: {
+      webcam: true,
+    },
+    where: {
+      NOT: {
+        webcamId: {
+          equals: null,
+        },
+      }
+    },
+  });
+  return { products, totalLength: products.length };
+}

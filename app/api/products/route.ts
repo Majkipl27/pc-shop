@@ -12,7 +12,7 @@ import { getHeadsets } from "./getHeadsets";
 import { getMice } from "./getMice";
 import { getKeyboards } from "./getKeyboards";
 import { getMonitors } from "./getMonitors";
-import { getWebcams } from "./getWebcams";
+import { getData, getWebcams } from "./getWebcams";
 
 export async function GET(req: Request) {
   try {
@@ -112,6 +112,10 @@ export async function GET(req: Request) {
         const webcamsData = await getWebcams(filters, url.searchParams);
         data = webcamsData.webcams;
         totalLength = webcamsData.totalLength;
+        break;
+      case "p":
+        const productsData = await getData();
+        data = productsData.products;
         break;
     }
 

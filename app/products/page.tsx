@@ -155,9 +155,9 @@ export default function ProductsPage() {
   }, [sortBy]);
 
   return (
-    <div className="flex items-center justify-around h-screen flex-col pb-12 pt-24 space-y-4">
+    <div className="flex items-center justify-between h-screen flex-col pt-24 gap-4 bg-dot-slate-300 dark:bg-dot-slate-600">
       <ProductsMap products={products} isLoading={areProductsBeingFetched} />
-      <div className="flex justify-center items-center pt-2 border-t w-full space-x-4">
+      <div className="flex justify-center items-center pt-2 border-t w-full pb-12 space-x-4 bg-background">
         <PaginationComponent
           skip={skip}
           take={take}
