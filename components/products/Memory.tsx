@@ -68,7 +68,7 @@ export default function Memory({ data }: { data: memory[] }): JSX.Element {
                 <p>
                   {memory.price_per_gb === null
                     ? "Not in stock!"
-                    : memory.price_per_gb + " $"}
+                    : memory.price_per_gb.toFixed(2) + " $"}
                 </p>
               </TableCell>
               <TableCell className="flex items-center justify-center">
@@ -114,7 +114,7 @@ export default function Memory({ data }: { data: memory[] }): JSX.Element {
                         <span className="font-bold">Price per gb: </span>
                         <span>
                           {memory.price_per_gb
-                            ? memory.price_per_gb + " $"
+                            ? memory.price_per_gb.toFixed(2) + " $"
                             : "Not in stock!"}
                         </span>
                       </p>

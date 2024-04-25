@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import HeaderNav from "./header-nav";
 import { Cookies } from "typescript-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@lib/atoms";
 import { Button } from "./ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +29,8 @@ import { Input } from "./ui/input";
 export default function Header(): JSX.Element {
   const [user, setUser] = useAtom(userAtom);
   const pathname = usePathname();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const userCookie = Cookies.get("user_info");
@@ -55,6 +57,22 @@ export default function Header(): JSX.Element {
     }, 500);
   }
 
+  function search(): void {
+    router.push(`/search?searchQuery=${searchQuery}`);
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") search();
+    });
+
+    return () => {
+      document.removeEventListener("keydown", (e) => {
+        if (e.key === "Enter") search();
+      });
+    };
+  });
+
   return !pathname.startsWith("/auth") ? (
     <header className="fixed top-0 z-50 w-full border-b border-border bg-background/60 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 gap-2 max-w-screen-2xl items-center">
@@ -66,8 +84,16 @@ export default function Header(): JSX.Element {
           <HeaderNav />
         </div>
         <div className="flex items-center gap-2">
-          <Input type="text" className="w-72" placeholder="Search" />
-          <Button variant="outline">
+          <Input
+            type="text"
+            className="w-72 bg-background"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
+          />
+          <Button variant="outline" onClick={search}>
             <IconSearch />
           </Button>
         </div>
@@ -79,7 +105,7 @@ export default function Header(): JSX.Element {
                 <DropdownMenuTrigger>
                   <Button variant="outline" asChild>
                     <span className="text-foreground/60 hover:text-foreground/80 transition-colors flex items-center space-x-4">
-                      <IconUser className="w-4 h-4"/>
+                      <IconUser className="w-4 h-4" />
                       {user.email}
                     </span>
                   </Button>

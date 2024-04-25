@@ -104,7 +104,7 @@ export default function HardDrives({
                         <span>
                           {hardDrive.price_per_gb === null
                             ? " Not in stock!"
-                            : hardDrive.price_per_gb + " $"}
+                            : hardDrive.price_per_gb.toFixed(2) + " $"}
                         </span>
                       </p>
                       <Separator />

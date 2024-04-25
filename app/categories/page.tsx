@@ -101,6 +101,7 @@ export default function CategoriesPage(): JSX.Element {
 
   return (
     <div className="bg-grid-slate-100 dark:bg-grid-slate-900 w-screen flex flex-col items-center justify-center py-16">
+      <h2 className="text-3xl font-poppins font-semibold">Categories</h2>
       <HoverEffect items={items} className="w-2/3" />
     </div>
   );
