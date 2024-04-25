@@ -55,6 +55,7 @@ export default function Page(): JSX.Element {
         Object.keys(items).map((item: any) => {
           return (
             <ProductsMap
+              key={item}
               products={{
                 category: item,
                 data: items[item],
