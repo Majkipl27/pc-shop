@@ -25,7 +25,7 @@ export default function CartDialog({
   >([]);
 
   useEffect(() => {
-    const cart = JSON.parse(window.localStorage.getItem("cart") || "{}");
+    const cart = JSON.parse(window.localStorage.getItem("cart") || "");
     setCartItems(cart.items || []);
   }, [isCartOpen]);
 
@@ -78,11 +78,8 @@ export default function CartDialog({
           {cartItems.length > 0 ? (
             cartItems.map((item, i) => {
               return (
-                <div>
-                  <div
-                    key={item.item.id}
-                    className="flex items-center justify-between gap-2"
-                  >
+                <div key={item.item.id}>
+                  <div className="flex items-center justify-between gap-2">
                     <Button
                       variant="ghost"
                       onClick={() => removeItem(item.item.id)}
@@ -135,12 +132,12 @@ export default function CartDialog({
                 Your cart is empty.
               </p>
               <Button asChild>
-                <a href="/categories">Let's go shopping!</a>
+                <a href="/categories">Let&apos;s go shopping!</a>
               </Button>
             </div>
           )}
         </div>
-        {cartItems.length > 0 && (
+        {cartItems && cartItems.length > 0 && (
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total:</p>
             <p className="text-lg font-bold">
