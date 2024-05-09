@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Keyboards({ data }: { data: keyboard[] }): JSX.Element {
   if (data.length === 0) {
@@ -118,6 +119,12 @@ export default function Keyboards({ data }: { data: keyboard[] }): JSX.Element {
                         <span>{k.manufacturer}</span>
                       </p>
                     </div>
+                    {k.price && (
+                      <AddToCartSection
+                        category="Keyboard"
+                        item={k}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

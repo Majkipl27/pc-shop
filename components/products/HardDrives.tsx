@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function HardDrives({
   data,
@@ -148,6 +149,12 @@ export default function HardDrives({
                         <span>{hardDrive.manufacturer}</span>
                       </p>
                     </div>
+                    {hardDrive.price && (
+                      <AddToCartSection
+                        category="Storage"
+                        item={hardDrive}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

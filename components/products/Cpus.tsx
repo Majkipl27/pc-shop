@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
   if (data.length === 0) {
@@ -125,6 +126,12 @@ export default function Cpus({ data }: { data: cpu[] }): JSX.Element {
                         <span>{cpu.manufacturer}</span>
                       </p>
                     </div>
+                    {cpu.price && (
+                      <AddToCartSection
+                        category="Cpu"
+                        item={cpu}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

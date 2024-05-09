@@ -19,8 +19,13 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
-export default function PowerSupplies({ data }: { data: powerSupply[] }): JSX.Element {
+export default function PowerSupplies({
+  data,
+}: {
+  data: powerSupply[];
+}): JSX.Element {
   if (data.length === 0) {
     return (
       <p className="block h-full">
@@ -131,6 +136,13 @@ export default function PowerSupplies({ data }: { data: powerSupply[] }): JSX.El
                         <span>{ps.name}</span>
                       </p>
                     </div>
+                    {ps.price && (
+                      <AddToCartSection
+                        category="Power-supply"
+                        item={ps}
+                        switchNameAndManufacturer
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

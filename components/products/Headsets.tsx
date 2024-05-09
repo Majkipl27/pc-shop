@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Headsets({
   data,
@@ -117,6 +118,12 @@ export default function Headsets({
                         <span>{h.manufacturer}</span>
                       </p>
                     </div>
+                    {h.price && (
+                      <AddToCartSection
+                        category="Headset"
+                        item={h}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Gpus({ data }: { data: gpu[] }): JSX.Element {
   if (data.length === 0) {
@@ -128,6 +129,13 @@ export default function Gpus({ data }: { data: gpu[] }): JSX.Element {
                         <span>{gpu.name}</span>
                       </p>
                     </div>
+                    {gpu.price && (
+                      <AddToCartSection
+                        category="Gpu"
+                        item={gpu}
+                        switchNameAndManufacturer
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

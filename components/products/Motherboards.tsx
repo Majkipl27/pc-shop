@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Motherboards({
   data,
@@ -111,7 +112,11 @@ export default function Motherboards({
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
                         <span className="font-bold">Max memory: </span>
-                        <span>{motherboard.max_memory ? motherboard.max_memory + "Gb" : "No data"}</span>
+                        <span>
+                          {motherboard.max_memory
+                            ? motherboard.max_memory + "Gb"
+                            : "No data"}
+                        </span>
                       </p>
                       <Separator />
                       <p className="flex items-center text-lg justify-between w-full *:block px-1">
@@ -129,6 +134,13 @@ export default function Motherboards({
                         <span>{motherboard.name}</span>
                       </p>
                     </div>
+                    {motherboard.price && (
+                      <AddToCartSection
+                        category="Motherboard"
+                        item={motherboard}
+                        switchNameAndManufacturer
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

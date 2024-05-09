@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@components/ui/table";
 import { Button } from "@components/ui/button";
-import { transformBadName } from "@lib/utils";
+import { addToCart, transformBadName } from "@lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +19,9 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import { IconPlus } from "@tabler/icons-react";
+import { Input } from "@components/ui/input";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Monitors({ data }: { data: monitor[] }): JSX.Element {
   if (data.length === 0) {
@@ -122,6 +125,9 @@ export default function Monitors({ data }: { data: monitor[] }): JSX.Element {
                         <span>{m.manufacturer}</span>
                       </p>
                     </div>
+                    {m.price && (
+                      <AddToCartSection category="Monitor" item={m} />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

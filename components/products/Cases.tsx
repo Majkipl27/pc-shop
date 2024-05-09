@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 
 export default function Cases({ data }: { data: computerCase[] }): JSX.Element {
@@ -127,6 +128,12 @@ export default function Cases({ data }: { data: computerCase[] }): JSX.Element {
                         <span>{cc.manufacturer}</span>
                       </p>
                     </div>
+                    {cc.price && (
+                      <AddToCartSection
+                        category="Case"
+                        item={cc}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

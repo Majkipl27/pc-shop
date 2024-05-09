@@ -25,12 +25,14 @@ import {
 } from "@tabler/icons-react";
 import { toast } from "./ui/use-toast";
 import { Input } from "./ui/input";
+import CartDialog from "./cartDialog";
 
 export default function Header(): JSX.Element {
   const [user, setUser] = useAtom(userAtom);
   const pathname = usePathname();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const userCookie = Cookies.get("user_info");
@@ -112,8 +114,13 @@ export default function Header(): JSX.Element {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Link href="/cart">Cart</Link>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setIsCartOpen(true);
+                      }}
+                    >
+                      <p>Cart</p>
                       <DropdownMenuShortcut>
                         <IconShoppingCart className="w-4 h-4" />
                       </DropdownMenuShortcut>
@@ -137,18 +144,32 @@ export default function Header(): JSX.Element {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button variant="outline" asChild>
-                <Link
-                  href="/auth/login"
-                  className="text-foreground/60 hover:text-foreground/80 transition-colors"
-                >
-                  Login
-                </Link>
-              </Button>
+              <>
+                <Button variant="outline" asChild>
+                  <p
+                    onClick={() => {
+                      setIsCartOpen(true);
+                    }}
+                    className="text-foreground/60 hover:text-foreground/80 transition-colors cursor-pointer"
+                  >
+                    <IconShoppingCart className="w-4 h-4 mr-2" />
+                    Cart
+                  </p>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link
+                    href="/auth/login"
+                    className="text-foreground/60 hover:text-foreground/80 transition-colors"
+                  >
+                    Login
+                  </Link>
+                </Button>
+              </>
             )}
           </nav>
         </div>
       </div>
+      <CartDialog isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
     </header>
   ) : (
     <div className="p-4 absolute flex items-center gap-2 z-50">

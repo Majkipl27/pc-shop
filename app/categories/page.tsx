@@ -26,8 +26,7 @@ export default function CategoriesPage(): JSX.Element {
       link: "/products?category=gpus",
       description:
         "A graphics processing unit (GPU) is a specialized processor originally designed to accelerate graphics rendering",
-      image:
-        "https://www.shutterstock.com/shutterstock/videos/1074222746/thumb/7.jpg?ip=x480",
+      image: "https://cdn-icons-png.flaticon.com/512/4617/4617742.png",
     },
     {
       title: "Memory",

@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Webcams({ data }: { data: webcam[] }): JSX.Element {
   if (data.length === 0) {
@@ -108,6 +109,7 @@ export default function Webcams({ data }: { data: webcam[] }): JSX.Element {
                         <span>{w.manufacturer}</span>
                       </p>
                     </div>
+                    {w.price && <AddToCartSection category="Webcam" item={w} />}
                   </DialogContent>
                 </Dialog>
               </TableCell>

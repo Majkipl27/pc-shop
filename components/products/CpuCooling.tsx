@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function CpuCooling({
   data,
@@ -111,6 +112,12 @@ export default function CpuCooling({
                         <span>{cc.manufacturer}</span>
                       </p>
                     </div>
+                    {cc.price && (
+                      <AddToCartSection
+                        category="Cooling"
+                        item={cc}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

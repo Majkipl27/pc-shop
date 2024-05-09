@@ -19,6 +19,7 @@ import {
 } from "@components/ui/dialog";
 import { DialogTitle } from "@components/ui/dialog";
 import { Separator } from "@components/ui/separator";
+import AddToCartSection from "@components/addToCartSection";
 
 export default function Memory({ data }: { data: memory[] }): JSX.Element {
   if (data.length === 0) {
@@ -139,6 +140,12 @@ export default function Memory({ data }: { data: memory[] }): JSX.Element {
                         <span>{memory.manufacturer}</span>
                       </p>
                     </div>
+                    {memory.price && (
+                      <AddToCartSection
+                        category="Memory"
+                        item={memory}
+                      />
+                    )}
                   </DialogContent>
                 </Dialog>
               </TableCell>

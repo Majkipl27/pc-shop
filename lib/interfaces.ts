@@ -62,7 +62,7 @@ interface gpu {
 }
 
 interface computerCase {
-  id: string | null;
+  id: string;
   price: number | null;
   type: string | null;
   color: string | null;
@@ -190,21 +190,29 @@ interface webcam {
 
 interface products {
   category: string;
-  data:
-    | motherboard[]
-    | cpu[]
-    | memory[]
-    | gpu[]
-    | computerCase[]
-    | powerSupply[]
-    | cpuCooling[]
-    | hardDrive[]
-    | headset[]
-    | mouse[]
-    | keyboard[]
-    | monitor[]
-    | webcam[];
+  data: product[];
 }
+
+type product =
+  | motherboard
+  | cpu
+  | memory
+  | gpu
+  | computerCase
+  | powerSupply
+  | cpuCooling
+  | hardDrive
+  | headset
+  | mouse
+  | keyboard
+  | monitor
+  | webcam;
+
+type cartItem = {
+  item: product;
+  quantity: number;
+  category: string;
+};
 
 export type {
   User,
@@ -222,4 +230,6 @@ export type {
   monitor,
   webcam,
   products,
+  product,
+  cartItem
 };
