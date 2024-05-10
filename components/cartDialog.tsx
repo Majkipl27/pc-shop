@@ -25,7 +25,7 @@ export default function CartDialog({
   >([]);
 
   useEffect(() => {
-    const cart = JSON.parse(window.localStorage.getItem("cart") || "");
+    const cart = JSON.parse(window.localStorage.getItem("cart") || "{}");
     setCartItems(cart.items || []);
   }, [isCartOpen]);
 
