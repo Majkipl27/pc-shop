@@ -48,7 +48,7 @@ export default function Page(): JSX.Element {
   }, [params]);
 
   return (
-    <div className="flex items-center overflow-y-auto flex-col py-24 gap-8 bg-dot-slate-300 dark:bg-dot-slate-600">
+    <div className="flex items-center overflow-y-auto h-screen flex-col py-24 gap-8 bg-dot-slate-300 dark:bg-dot-slate-600">
       {areProductsBeingFetched ? (
         <Spinner classname="h-full" />
       ) : Object.keys(items).length > 0 ? (

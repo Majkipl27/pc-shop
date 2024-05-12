@@ -35,7 +35,7 @@ export default function AddToCartSection({
         onClick={() => {
           addToCart(item, category, quantity, switchNameAndManufacturer),
             toast({
-              title: "Item added to cart!",
+              title: "Item(s) added to cart!",
             });
         }}
       >

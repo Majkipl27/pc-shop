@@ -240,6 +240,21 @@ export default function FiltersComponent({
                 />
               </div>
             </div>
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="all"
+                checked={params.get("all") === "true" ? true : false}
+                onCheckedChange={(checked) => {
+                  updateFilters({
+                    key: "all",
+                    data: checked,
+                  });
+                }}
+              />
+              <label htmlFor="all">
+                Show all products (even not in stock)
+              </label>
+            </div>
           </div>
         )}
       </SheetContent>

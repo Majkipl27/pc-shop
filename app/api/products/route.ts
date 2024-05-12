@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const category = url.searchParams.get("category");
-    const minPrice = url.searchParams.get("minPrice") || undefined;
+    const minPrice = url.searchParams.get("minPrice") || url.searchParams.get("all") === "true" ? undefined : 1;
     const maxPrice = url.searchParams.get("maxPrice") || undefined;
     const skip = url.searchParams.get("skip") || 0;
     const take = url.searchParams.get("take") || 10;
@@ -38,7 +38,7 @@ export async function GET(req: Request) {
       price: price ? (price as "asc" | "desc") : undefined,
     };
 
-    let data: unknown = [];
+    let data: unknown[] = [];
     let totalLength: number = 0;
 
     switch (category) {

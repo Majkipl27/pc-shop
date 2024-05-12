@@ -103,46 +103,57 @@ export default function Header(): JSX.Element {
           <nav className="flex items-center gap-4">
             <ModeToggle />
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Button variant="outline" asChild>
-                    <span className="text-foreground/60 hover:text-foreground/80 transition-colors flex items-center space-x-4">
-                      <IconUser className="w-4 h-4" />
-                      {user.email}
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => {
-                        setIsCartOpen(true);
-                      }}
-                    >
-                      <p>Cart</p>
-                      <DropdownMenuShortcut>
-                        <IconShoppingCart className="w-4 h-4" />
-                      </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Link href="/purchase-history">Purchase history</Link>
-                      <DropdownMenuShortcut>
-                        <IconClock className="w-4 h-4" />
-                      </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={logoutHandler}
-                    >
-                      Logout
-                      <DropdownMenuShortcut>
-                        <IconDoorExit className="w-4 h-4" />
-                      </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <Button variant="outline" asChild>
+                  <p
+                    onClick={() => {
+                      setIsCartOpen(true);
+                    }}
+                    className="text-foreground/60 hover:text-foreground/80 transition-colors cursor-pointer"
+                  >
+                    <IconShoppingCart className="w-4 h-4 mr-2" />
+                    Cart
+                    {localStorage.getItem("cart")
+                      ? JSON.parse(localStorage.getItem("cart") || "{}").items
+                          .length > 0
+                        ? ` (${
+                            JSON.parse(localStorage.getItem("cart") || "{}")
+                              .items.length
+                          })`
+                        : ""
+                      : ""}
+                  </p>
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant="outline" asChild>
+                      <span className="text-foreground/60 hover:text-foreground/80 transition-colors flex items-center space-x-4">
+                        <IconUser className="w-4 h-4" />
+                        {user.email}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Link href="/purchase-history">Purchase history</Link>
+                        <DropdownMenuShortcut>
+                          <IconClock className="w-4 h-4" />
+                        </DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onClick={logoutHandler}
+                      >
+                        Logout
+                        <DropdownMenuShortcut>
+                          <IconDoorExit className="w-4 h-4" />
+                        </DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <>
                 <Button variant="outline" asChild>
